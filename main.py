@@ -1,77 +1,86 @@
-class Pet(object):
-    def __init__(self,species,name):
-        try:
-            self.species=species
-            self.name=name
-        except:
-            print("the species is not one of the following :'dog','cat','horse',hamster'")
-    def __str__(self):
-        species="species of" + self.species +"."
-        name="named" + self.name +"."
-        return species,name
-class Dog(Pet):
-    def __init__(self,chases):
-        name=self.name
-        self.chases=chases
+species_list = {'dog': 'dog', 'cat': 'cat', 'horse': 'horse', 'hamster': 'hamster'}
+animal = {'Dog': [], 'Cat': []}
 
-    def __str__(self):
-        species = "species of" + self.species + "."
-        chases = "chases" + self.chases + "."
-        return species,chases
-class Cat(Pet):
-    def __init__(self,hates="Dogs"):
-        species=self.species
-        self.hates=hates
-
-    def __str__(self):
-        name = "species of" + self.species + "."
-        hates = "hates" + self.hates + "."
-        return hates, name
-class Horse(Pet):
-    def hi(self):
-        print("hi")
-class Hamster(Pet):
-    def hi(self):
-        print('hai')
-def whichone(petlist, name):
-    for pet in petlist:
-        if pet.name == name:
-            return pet
-    return None
-def whichtype(adopt_type="general pet"):
-    return pet_types.get(adopt_type.lower(), Pet)
-
-pet_types = {'dog': Dog,'cat':Cat,'horse':Horse,'hamster':Hamster}
-def main():
-    animals = []
-    base_prompt = "Add <pettype> -  dog, cat, horse,horse or another unknown pet type\nQuit\n\nEnter your Choice:"
-    feedback = ""
-    while True:
-        action = input(feedback + "\n" + base_prompt)
-        feedback = ""
-        words = action.split()
-        if len(words) > 0:
-            command = words[0]
+class Pet():
+    def __init__(self, species, name=''):
+        if species not in species_list:
+            print("\nspecies not in the species_list")
+            species_list[species] = name
         else:
-            command = None
-        if command == "Quit" or command == "quit" or command == "QUIT":
-            print("Exiting...")
-            return
-        elif command == "Add" or command == "add" or command == "ADD" and len(words) > 1:
-            try:
-                if whichone(animals, words[1]):
-                    feedback += "You already have a pet with that name\n"
-                else:
-                    if len(words) > 2:
-                        new_pet = whichtype(words[2])
-                    else:
-                        new_pet = Pet
-                    animals.append(new_pet(words[1]))
-            except:
-                print("enter the details correctly. ")
-        for pet in animals:
-            feedback += "\n" + pet.__str__()
+            self.species = species
+            self.name = name
+
+    def __str__(self):
+        if self.name == '':
+            print("\nSpecies of " + self.species + " unnames")
+        else:
+            print("\nSpecies of " + self.species + " named " + self.name)
+
+class Dog(Pet):
+    def __init__(self, name='', chases='Cats'):
+        self.species = 'Dog'
+        self.name = name
+        self.chases = chases
+
+    def __str__(self):
+        if self.name == '':
+            print("\nSpecies of " + self.species + " unnames" + " chasess " + self.chases)
+        else:
+            print("\nSpecies of " + self.species + " named " + self.name + " chasess " + self.chases)
+
+class Cat(Pet):
+    def __init__(self, name='', hates='Dog'):
+        self.species = 'Cat'
+        self.name = name
+        self.hates = hates
+
+    def __str__(self):
+        if self.name == '':
+            print("\nSpecies of " + self.species + " unnames" + " hates " + self.hates)
+        else:
+            print("\nSpecies of " + self.species + " named " + self.name + " hates " + self.hates)
+
+def pet_object():
+    species = input("enter the species name : ")
+    new_pet = Pet(species)
+    print(species_list)
+
+def dog_object():
+    name = input("enter the dog name: ")
+    chases = input("enter the chases: ")
+    dog = Dog(name, chases)
+    animal['Dog']= [name, chases]
+    print(animal)
+    dog.__str__()
+
+def cat_object():
+    name = input("enter the cat name: ")
+    hates = input("enter the hates: ")
+    cat = Cat(name, hates)
+    animal['Cat'] = [name, hates]
+    cat.__str__()
+
+def main():
+    while True:
+        print(" 1 Add Pet\n 2 Add Species Dog\n 3 Add Species Cat\n")
+        choice = int(input("enter the choice: "))
+        if choice == 1:
+            pet_object()
+        elif choice == 2:
+            dog_object()
+
+        elif choice == 3:
+            cat_object()
+        else:
+            print("\nsorry invalid choice: ")
+
+
 main()
+
+
+
+
+
 
 
 
